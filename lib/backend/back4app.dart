@@ -107,10 +107,10 @@ class Back4app {
   }
 
   List<String> getPlantNames() {
-    List<String> ids = [];
+    List<String> names = [];
     for (dynamic k in currentUser!.get("plants")) {
-      ids.add(k.toString());
+      names.add(k.toString());
     }
-    return ids;
+    return names;
   }
 }

@@ -5,7 +5,8 @@ import 'package:flutter_walkthrough/pages/myaccountpage.dart';
 
 class MyAppBar extends StatelessWidget {
   final String heading;
-  const MyAppBar({super.key, required this.heading});
+  final void Function(String)? onSearchFocus;
+  const MyAppBar({super.key, required this.heading, this.onSearchFocus});
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -17,6 +18,7 @@ class MyAppBar extends StatelessWidget {
       leading: heading == "Create"? null : heading == "Settings"? Transform.translate(offset: const Offset(-70, 0), child: IconButton(onPressed: () => {Navigator.pop(context)}, icon: const Icon(Icons.arrow_back), )): const Padding(
         padding: EdgeInsets.all(10.0),
         child: SearchBar(
+        onChanged: null,
         hintText: "Search",
         leading: Icon(Icons.search_rounded),
         elevation: MaterialStatePropertyAll(1),
