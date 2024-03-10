@@ -35,6 +35,16 @@ class _OnboardingState extends State<Onboarding> {
             const SizedBox(
               height: 16,
             ),
+            TextButton(onPressed: () {
+              setState(() {
+                alreadyUser = !alreadyUser;
+              });
+              }, child: 
+            alreadyUser? Text("Signup instead", style: Theme.of(context).textTheme.displaySmall) : Text("Login instead", style: Theme.of(context).textTheme.displaySmall),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
             TextField(
               inputFormatters: [
                 LengthLimitingTextInputFormatter(10),
@@ -144,13 +154,7 @@ class _OnboardingState extends State<Onboarding> {
             const SizedBox(
               height: 10,
             ),
-            TextButton(onPressed: () {
-              setState(() {
-                alreadyUser = !alreadyUser;
-              });
-              }, child: 
-            alreadyUser? Text("Signup instead", style: Theme.of(context).textTheme.displaySmall) : Text("Login instead", style: Theme.of(context).textTheme.displaySmall),
-            ),
+            
           ],
         ),
       ),

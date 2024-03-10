@@ -95,4 +95,8 @@ class Back4app{
     }
   }
 
+  Future<List<String>> getPlantIds() {
+    return currentUser!.get("plantIds");
+  }
+
 }

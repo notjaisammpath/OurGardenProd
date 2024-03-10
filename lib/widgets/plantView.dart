@@ -1,49 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_walkthrough/apptheme.dart';
 
-class PlantView extends StatefulWidget{
-  const PlantView({super.key});
+import '../../backend/plant.dart';
 
-  @override
-  State<PlantView> createState() => _PlantViewState();
-}
+// ignore: must_be_immutable
+class PlantView extends StatelessWidget {
+  String name = "PLANT_NAME";
+  String imageUrl = "https://cdn-icons-png.flaticon.com/512/628/628283.png";
+  int numOfPlants = 1;
 
-class _PlantViewState extends State<PlantView> {
-  bool _imageLoaded = false;
+  PlantView();
+
+  PlantView.fromPlant(Plant p, int numPlants, {super.key}) {
+    if (p.data[0].commonName != null) {
+      name = p.data[0].commonName!;
+    }
+
+    if (p.data[0].imageUrl != null) {
+      imageUrl = p.data[0].imageUrl!;
+    }
+    numOfPlants = numPlants;
+  }
+
+  String getName() {
+    return name;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 10,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-      color: AppColor.SECONDARY,
-      child: Stack(
-        children: [
-          FutureBuilder<Image>(
-          future: Future.delayed(Durations.short1, () {
-            setState(() {
-              var _imageLoaded = true;
-            });
-          }
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-                return Center(
-                    child: SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: CircularProgressIndicator()),
-                );
-              default:
-                if (snapshot.hasData && snapshot.data!) {
-                  return Home(startIndex: 2,);
-                } else {
-                  return const Onboarding();
-                }
-            }
-          }),
-        ],
-      )
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Image.network(
+          imageUrl,
+          scale: 0.2,
+          fit: BoxFit.fill,
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          child: ColoredBox(
+            color: Color.fromARGB(115, 0, 0, 20),
+            child: Text(
+              name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 15,
+          bottom: 15,
+          child: IconButton(
+              icon: Icon(Icons.delete),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateColor.resolveWith((states) => Colors.white)),
+              onPressed: () => {}),
+        ),
+        Positioned(
+          right: 15,
+          bottom: 15,
+          child: CircleAvatar(child: Text("$numOfPlants")),
+        ),
+      ],
     );
   }
 }

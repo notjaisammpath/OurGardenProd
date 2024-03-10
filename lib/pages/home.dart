@@ -17,6 +17,18 @@ class _HomeState extends State<Home> {
     print("current user in home is ${Back4app.currentUser}");
     return Scaffold(
       body: mainPages[widget.startIndex],
+      floatingActionButton: widget.startIndex == 2? FloatingActionButton.extended(
+        label: const Text("Add a Plant"),
+        onPressed: () {
+          setState(() {
+          });
+        },
+        elevation: 5,
+        foregroundColor: AppColor.PRIMARY,
+        backgroundColor: AppColor.WHITE,
+        shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(10))),
+        icon: const Icon(Icons.add),
+      ): null,
       backgroundColor: AppColor.BG_COLOR,
       bottomNavigationBar: BottomNavigationBar(
         
