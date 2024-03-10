@@ -16,7 +16,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("current user is ${Back4app.currentUser}");
     List<Widget> inColumn = [
       2 == 2
           ? Padding(

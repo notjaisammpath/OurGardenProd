@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/apptheme.dart';
 import 'package:flutter_walkthrough/backend/back4app.dart';
+import 'package:flutter_walkthrough/backend/plant.dart';
+import 'package:flutter_walkthrough/backend/plantData.dart';
+import 'package:flutter_walkthrough/pages/addplantpage.dart';
 import 'package:flutter_walkthrough/pages/mainpages/mainpages.dart';
 
 class Home extends StatefulWidget {
@@ -14,19 +17,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    print("current user in home is ${Back4app.currentUser}");
     return Scaffold(
-      body: mainPages[widget.startIndex],
+      body: MainPages().mainPages[widget.startIndex],
       floatingActionButton: widget.startIndex == 2? FloatingActionButton.extended(
         label: const Text("Add a Plant"),
         onPressed: () {
-          setState(() {
-          });
+          Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddPlantPage()),
+                    );
         },
         elevation: 5,
         foregroundColor: AppColor.PRIMARY,
         backgroundColor: AppColor.WHITE,
-        shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(10))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
         icon: const Icon(Icons.add),
       ): null,
       backgroundColor: AppColor.BG_COLOR,

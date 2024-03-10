@@ -7,10 +7,12 @@ class PlantView extends StatelessWidget {
   String name = "PLANT_NAME";
   String imageUrl = "https://cdn-icons-png.flaticon.com/512/628/628283.png";
   int numOfPlants = 1;
+  Plant? plant;
 
   PlantView();
 
   PlantView.fromPlant(Plant p, int numPlants, {super.key}) {
+    plant = p;
     if (p.data[0].commonName != null) {
       name = p.data[0].commonName!;
     }
