@@ -37,8 +37,8 @@ class Back4app {
     }
   }
 
-  Future<void> addPlantToGarden(Plant p) async {
-    currentUser!.setAdd("plants", p.data[0].commonName!);
+  Future<void> addPlantToGarden(Plant p, int numPlants) async {
+    currentUser!.setAdd("plants", "${p.data[0].commonName!}--$numPlants");
     await currentUser!.save();
   }
 

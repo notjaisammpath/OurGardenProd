@@ -4,7 +4,7 @@ import 'package:flutter_walkthrough/backend/plant.dart';
 import 'package:flutter_walkthrough/widgets/myAppBar.dart';
 import 'package:flutter_walkthrough/widgets/plantView.dart';
 
-class MyGardenPage extends StatefulWidget{
+class MyGardenPage extends StatefulWidget {
   const MyGardenPage({super.key});
 
   @override
@@ -30,25 +30,28 @@ class _MyGardenPageState extends State<MyGardenPage> {
                     child: CircularProgressIndicator()),
               ),
             );
-          default: {
-            List<PlantView> views = [];
-            for(Plant k in snapshot.data as List<Plant>) {
-              views.add(PlantView.fromPlant(k, 1));
+          default:
+            {
+              List<PlantView> views = [];
+              for (Plant k in snapshot.data as List<Plant>) {
+                views.add(PlantView.fromPlant(k, 1));
+              }
+              return CustomScrollView(
+                  key: const Key("GARDENPAGESCROLL"),
+                  slivers: [
+                    const MyAppBar(heading: "My Garden"),
+                    SliverPadding(
+                      padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
+                      sliver: SliverGrid.extent(
+                        mainAxisSpacing: 0,
+                        maxCrossAxisExtent: 200,
+                        children: views,
+                      ),
+                    ),
+                  ]);
             }
-            return CustomScrollView(key: const Key("GARDENPAGESCROLL"), slivers: [
-              const MyAppBar(heading: "My Garden"),
-              SliverPadding(
-                padding: const EdgeInsets.only(left: 8, right: 8, top: 2),
-                sliver: SliverGrid.extent(
-                  maxCrossAxisExtent: 200,
-                  children: 
-                    views
-                  ,
-                ),
-              ),
-            ]);
         }
-        }
-      });
+      },
+    );
   }
 }

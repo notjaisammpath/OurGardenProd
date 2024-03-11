@@ -8,7 +8,10 @@ class Backend{
     var nameList = Back4app().getPlantNames();
     List<Future<Plant>> futureList = [];
     for(String k in nameList) {
-      futureList.add(Trefle().getPlantFromName(k));
+      Future<Plant> j = Trefle().getPlantFromName(k.split("--")[0]);
+      for(int i = 0; i < int.parse(k.split("--")[1]); i++) {
+        futureList.add(j);
+      }
     }
   return Future.wait(futureList);
   }

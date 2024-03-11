@@ -17,6 +17,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
   int numToAdd = 0;
 
   TextEditingController plantNameController = TextEditingController();
+  TextEditingController plantNumController = TextEditingController();
 
   @override
   Widget build(BuildContext context) =>
@@ -27,7 +28,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
           nameSubmitted
               ? FutureBuilder<Plant>(
                   future:
-                      getPlant(), // a previously-obtained Future<String> or null
+                      getPlant(),
                   builder:
                       (BuildContext context, AsyncSnapshot<Plant> snapshot) {
                     List<Widget> children;
@@ -35,8 +36,8 @@ class _AddPlantPageState extends State<AddPlantPage> {
                       p = snapshot.data;
 
                       children = <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(12),
+                        const Padding(
+                          padding: EdgeInsets.all(12),
                           child: Text("Plant found!"),
                         ),
                         Image.network(
@@ -122,24 +123,18 @@ class _AddPlantPageState extends State<AddPlantPage> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(3)
                       ],
-                      decoration: InputDecoration(
+                      controller: plantNumController,
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'How many do you want to add?'),
-                      onChanged: (value) => {
-                        () => numToAdd = int.parse(value),
-                      },
-                      onSubmitted: (value) => {
-                        setState(
-                          () => numToAdd = int.parse(value),
-                        )
-                      },
+                      
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () => {addPlant(
-                        numToAdd,
+                        int.parse(plantNumController.text),
                       ),
                       Navigator.push(
                       context,
@@ -157,9 +152,8 @@ class _AddPlantPageState extends State<AddPlantPage> {
       ),
   );
   void addPlant(int i){
-    for(int k = 0; k < 1; k ++) {
-      Back4app().addPlantToGarden(p!);
-    }
+      Back4app().addPlantToGarden(p!, i);
+    
   }
 
    Future<Plant> getPlant() async {

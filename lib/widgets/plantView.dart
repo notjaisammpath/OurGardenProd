@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_walkthrough/apptheme.dart';
 
 import '../../backend/plant.dart';
 
@@ -29,46 +30,52 @@ class PlantView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Image.network(
-          imageUrl,
-          scale: 0.2,
-          fit: BoxFit.fill,
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 0,
-          child: ColoredBox(
-            color: Color.fromARGB(115, 0, 0, 20),
-            child: Text(
-              name,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                fontSize: 20,
+    return Card(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.network(
+              imageUrl,
+              scale: 0.2,
+              fit: BoxFit.fill
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              child: ColoredBox(
+                color: const Color.fromARGB(115, 0, 0, 20),
+                child: Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
-          ),
+            Positioned(
+              left: 15,
+              bottom: 15,
+              child: IconButton(
+                  icon: const Icon(Icons.delete),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateColor.resolveWith((states) => AppColor.WHITE)),
+                  onPressed: () => {}),
+            ),
+            Positioned(
+              right: 15,
+              bottom: 15,
+              child: CircleAvatar(child: Text("$numOfPlants")),
+            ),
+          ],
         ),
-        Positioned(
-          left: 15,
-          bottom: 15,
-          child: IconButton(
-              icon: Icon(Icons.delete),
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateColor.resolveWith((states) => Colors.white)),
-              onPressed: () => {}),
-        ),
-        Positioned(
-          right: 15,
-          bottom: 15,
-          child: CircleAvatar(child: Text("$numOfPlants")),
-        ),
-      ],
+      ),
     );
   }
 }
