@@ -1,4 +1,5 @@
-import 'dart:ffi';
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/backend/plant.dart';
@@ -96,7 +97,7 @@ class Back4app {
     if (response.success) {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => Signup()),
+        MaterialPageRoute(builder: (context) => const Signup()),
         (Route<dynamic> route) => false,
       );
       currentUser = user;
@@ -113,4 +114,6 @@ class Back4app {
     }
     return names;
   }
+
+  void createPost(String text, File? image, bool visibilityState, double sliderValue, String string) {}
 }

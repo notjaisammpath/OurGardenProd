@@ -7,6 +7,8 @@ import 'package:flutter_walkthrough/backend/trefle.dart';
 import 'package:flutter_walkthrough/pages/home.dart';
 
 class AddPlantPage extends StatefulWidget {
+  const AddPlantPage({super.key});
+
   @override
   State<AddPlantPage> createState() => _AddPlantPageState();
 }
@@ -81,8 +83,8 @@ class _AddPlantPageState extends State<AddPlantPage> {
                     );
                   },
                 )
-              : Padding(
-                  padding: const EdgeInsets.only(
+              : const Padding(
+                  padding: EdgeInsets.only(
                       top: 20, bottom: 20, left: 10, right: 10),
                   child: Text(
                       textAlign: TextAlign.center,
@@ -103,7 +105,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: TextField(
                       controller: plantNameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter a plant name'),
                       onChanged: (value) => {
@@ -141,7 +143,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
                       MaterialPageRoute(builder: (context) =>  Home(startIndex: 2,)),
                     ),
                       },
-                      child: Text("done"),
+                      child: const Text("done"),
                     ),
                   )
                 ],

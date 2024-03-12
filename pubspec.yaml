@@ -15,6 +15,9 @@ dependencies:
   google_fonts: ^4.0.4
   list_tile_switch: ^1.0.0
 
+  http: any
+  image_picker: ^1.0.7
+  toggle_switch: ^2.1.0
 dev_dependencies:
   flutter_launcher_icons: ^0.10.0
   flutter_lints: ^2.0.1

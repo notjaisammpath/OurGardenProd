@@ -2,14 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter_walkthrough/backend/back4app.dart';
 import 'package:flutter_walkthrough/backend/plant.dart';
-import 'package:flutter_walkthrough/backend/user.dart';
 import 'package:http/http.dart' as http;
 
 class Trefle{
   static const trefleKey = "_ctQgnSfYAcDzBnanrId6PtDP_tteSElYue0uv6SILY";
 
   Future<List<Plant>> getGarden() async {
-    List<String> ids = await Back4app().getPlantNames();
+    List<String> ids = Back4app().getPlantNames();
     List<Plant> garden = [];
     List<String> excRepeats = [];
     for (String k in ids) {

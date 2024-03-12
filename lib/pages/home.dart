@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/apptheme.dart';
-import 'package:flutter_walkthrough/backend/back4app.dart';
-import 'package:flutter_walkthrough/backend/plant.dart';
-import 'package:flutter_walkthrough/backend/plantData.dart';
 import 'package:flutter_walkthrough/pages/addplantpage.dart';
-import 'package:flutter_walkthrough/pages/mainpages/mainpages.dart';
+import 'package:flutter_walkthrough/pages/mainpages/createpage.dart';
+import 'package:flutter_walkthrough/pages/mainpages/feedpage.dart';
+import 'package:flutter_walkthrough/pages/mainpages/gardenpage.dart';
 
 class Home extends StatefulWidget {
   int startIndex;
@@ -18,13 +17,20 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MainPages().mainPages[widget.startIndex],
+      body: IndexedStack(
+            index: widget.startIndex,
+            children: <Widget>[
+              const FeedPage(),
+              const CreatePage(),
+              MyGardenPage()
+            ],
+          ),
       floatingActionButton: widget.startIndex == 2? FloatingActionButton.extended(
         label: const Text("Add a Plant"),
         onPressed: () {
           Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddPlantPage()),
+                      MaterialPageRoute(builder: (context) => const AddPlantPage()),
                     );
         },
         elevation: 5,

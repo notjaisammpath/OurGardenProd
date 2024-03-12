@@ -4,6 +4,8 @@ import 'package:flutter_walkthrough/widgets/myAppBar.dart';
 import 'package:flutter_walkthrough/widgets/post.dart';
 
 class FeedPage extends StatefulWidget{
+  const FeedPage({super.key});
+
   @override
   State<FeedPage> createState() => _FeedPageState();
 }

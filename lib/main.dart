@@ -3,7 +3,6 @@ import 'package:flutter_walkthrough/apptheme.dart';
 import 'package:flutter_walkthrough/backend/back4app.dart';
 import 'package:flutter_walkthrough/pages/home.dart';
 import 'package:flutter_walkthrough/pages/onboarding/onboarding.dart';
-import 'package:flutter_walkthrough/pages/onboarding/signup.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

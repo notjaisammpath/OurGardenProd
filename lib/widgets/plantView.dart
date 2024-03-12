@@ -4,13 +4,14 @@ import 'package:flutter_walkthrough/apptheme.dart';
 import '../../backend/plant.dart';
 
 // ignore: must_be_immutable
-class PlantView extends StatelessWidget {
+class PlantView extends StatefulWidget {
   String name = "PLANT_NAME";
   String imageUrl = "https://cdn-icons-png.flaticon.com/512/628/628283.png";
   int numOfPlants = 1;
   Plant? plant;
+  bool markForDelete = false;
 
-  PlantView();
+  PlantView({super.key});
 
   PlantView.fromPlant(Plant p, int numPlants, {super.key}) {
     plant = p;
@@ -24,8 +25,13 @@ class PlantView extends StatelessWidget {
     numOfPlants = numPlants;
   }
 
+  @override
+  State<PlantView> createState() => _PlantViewState();
+}
+
+class _PlantViewState extends State<PlantView> {
   String getName() {
-    return name;
+    return widget.name;
   }
 
   @override
@@ -33,12 +39,12 @@ class PlantView extends StatelessWidget {
     return Card(
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.network(
-              imageUrl,
+              widget.imageUrl,
               scale: 0.2,
               fit: BoxFit.fill
             ),
@@ -49,7 +55,7 @@ class PlantView extends StatelessWidget {
               child: ColoredBox(
                 color: const Color.fromARGB(115, 0, 0, 20),
                 child: Text(
-                  name,
+                  widget.name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -66,12 +72,16 @@ class PlantView extends StatelessWidget {
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateColor.resolveWith((states) => AppColor.WHITE)),
-                  onPressed: () => {}),
+                  onPressed: () => {
+                    setState(() {
+                      widget.markForDelete = true;
+                    })
+                  }),
             ),
             Positioned(
               right: 15,
               bottom: 15,
-              child: CircleAvatar(child: Text("$numOfPlants")),
+              child: CircleAvatar(child: Text("${widget.numOfPlants}")),
             ),
           ],
         ),

@@ -5,17 +5,19 @@ import 'package:flutter_walkthrough/widgets/myAppBar.dart';
 import 'package:flutter_walkthrough/widgets/plantView.dart';
 
 class MyGardenPage extends StatefulWidget {
-  const MyGardenPage({super.key});
+  MyGardenPage({super.key});
+  List<PlantView> views = [];
 
   @override
   State<MyGardenPage> createState() => _MyGardenPageState();
 }
 
 class _MyGardenPageState extends State<MyGardenPage> {
-  Future<List<Plant>> garden = Backend().getUserPlants();
+  Future<Map<Plant, int>> garden = Backend().getUserPlants();
 
   @override
   Widget build(BuildContext context) {
+    if(widget.views.isEmpty){
     return FutureBuilder(
       future: garden,
       builder: (context, snapshot) {
@@ -32,9 +34,8 @@ class _MyGardenPageState extends State<MyGardenPage> {
             );
           default:
             {
-              List<PlantView> views = [];
-              for (Plant k in snapshot.data as List<Plant>) {
-                views.add(PlantView.fromPlant(k, 1));
+              for(Plant k in (snapshot.data as Map<Plant, int>).keys) {
+                widget.views.add(PlantView.fromPlant(k, (snapshot.data as Map<Plant, int>)[k]!));
               }
               return CustomScrollView(
                   key: const Key("GARDENPAGESCROLL"),
@@ -45,7 +46,7 @@ class _MyGardenPageState extends State<MyGardenPage> {
                       sliver: SliverGrid.extent(
                         mainAxisSpacing: 0,
                         maxCrossAxisExtent: 200,
-                        children: views,
+                        children: widget.views,
                       ),
                     ),
                   ]);
@@ -53,5 +54,21 @@ class _MyGardenPageState extends State<MyGardenPage> {
         }
       },
     );
+    }
+    else {
+      return CustomScrollView(
+                  key: const Key("GARDENPAGESCROLL"),
+                  slivers: [
+                    const MyAppBar(heading: "My Garden"),
+                    SliverPadding(
+                      padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
+                      sliver: SliverGrid.extent(
+                        mainAxisSpacing: 0,
+                        maxCrossAxisExtent: 200,
+                        children: widget.views,
+                      ),
+                    ),
+                  ]);
+    }
   }
 }
