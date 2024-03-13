@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
                 );
               default:
                 if (snapshot.hasData && snapshot.data!) {
-                  return Home(startIndex: 2,);
+                  return Home(startIndex: 1,);
                 } else {
                   return const Onboarding();
                 }

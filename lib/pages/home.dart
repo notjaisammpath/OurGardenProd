@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
             index: widget.startIndex,
             children: <Widget>[
               const FeedPage(),
-              const CreatePage(),
+              CreatePage(),
               MyGardenPage()
             ],
           ),

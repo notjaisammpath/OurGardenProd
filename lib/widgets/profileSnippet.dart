@@ -11,6 +11,6 @@ class ProfileSnippet extends StatefulWidget{
 class _ProfileSnippetState extends State<ProfileSnippet> {
   @override
   Widget build(BuildContext context) {
-    return Card(child: Center(child: ListTile(title: Text(widget.user.displayName),)),);
+    return Card(child: Center(child: ListTile(title: Text(widget.user.displayName!),)),);
   }
 }

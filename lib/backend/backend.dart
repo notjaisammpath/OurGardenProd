@@ -1,6 +1,7 @@
 import 'package:flutter_walkthrough/backend/back4app.dart';
 import 'package:flutter_walkthrough/backend/plant.dart';
 import 'package:flutter_walkthrough/backend/trefle.dart';
+import 'package:flutter_walkthrough/widgets/post.dart';
 
 class Backend{
   Future<Map<Plant, int>> getUserPlants()  async{
@@ -12,4 +13,5 @@ class Backend{
       }
   return futureMap;
   }
+
 }

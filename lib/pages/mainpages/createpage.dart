@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_walkthrough/apptheme.dart';
 import 'package:flutter_walkthrough/backend/back4app.dart';
 import 'package:image_picker/image_picker.dart'; 
 import 'package:toggle_switch/toggle_switch.dart';
@@ -21,7 +22,6 @@ class _CreatePageState extends State<CreatePage> {
   File? image;
 
   final _captionController = TextEditingController();
-  bool _visibilityState = false;
 
   void clearPhoto() {
     setState(() {
@@ -49,7 +49,6 @@ class _CreatePageState extends State<CreatePage> {
       Back4app().createPost(
           _captionController.text,
           image,
-          _visibilityState,
           sliderValue,
           postType.toString()
           );
@@ -74,9 +73,10 @@ class _CreatePageState extends State<CreatePage> {
         break;
     }
     return Scaffold(
+      backgroundColor: AppColor.BG_COLOR,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Create a Post'),
+        title: const Text('Create a Post'),
         
       ),
       body: Column(
@@ -84,7 +84,7 @@ class _CreatePageState extends State<CreatePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: ToggleSwitch(
                 minWidth: 200,
                 animate: false,
@@ -94,18 +94,18 @@ class _CreatePageState extends State<CreatePage> {
                 onToggle: (index) => {
                       if (index == 0)
                         setState(
-                          () => {postType = PostType.request, postTypeInt = 0},
+                          () {postType = PostType.request; postTypeInt = 0;},
                         )
                       else if (index == 1)
                         {
                           setState(
-                            () => {postType = PostType.offer, postTypeInt = 1},
+                            () {postType = PostType.offer; postTypeInt = 1;},
                           )
                         }
                       else
                         {
                           setState(
-                            () => {postType = PostType.post, postTypeInt = 2},
+                            () {postType = PostType.post; postTypeInt = 2;},
                           )
                         }
                     }),
@@ -116,14 +116,14 @@ class _CreatePageState extends State<CreatePage> {
                     child: image == null
                         ? IconButton(
                             onPressed: () => {addPostPhoto(context)},
-                            icon: Icon(Icons.add_photo_alternate_rounded),
+                            icon: const Icon(Icons.add_photo_alternate_rounded),
                             iconSize: 90,
                           )
                         : Stack(
                             children: [
                               Positioned(
                                 child: Padding(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   child: Image.file(
                                     image!,
                                     fit: BoxFit.cover,
@@ -134,11 +134,11 @@ class _CreatePageState extends State<CreatePage> {
                                 right: 15,
                                 top: 15,
                                 child: IconButton(
-                                  icon: Icon(Icons.close),
+                                  icon: const Icon(Icons.close),
                                   style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateColor.resolveWith(
-                                              (states) => Colors.white)),
+                                              (states) => AppColor.WHITE)),
                                   onPressed: () => clearPhoto(),
                                 ),
                               ),
@@ -154,7 +154,7 @@ class _CreatePageState extends State<CreatePage> {
                             children: [
                               Positioned(
                                 child: Padding(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
                                         maxWidth:
@@ -178,11 +178,11 @@ class _CreatePageState extends State<CreatePage> {
                                 right: 15,
                                 top: 15,
                                 child: IconButton(
-                                  icon: Icon(Icons.close),
+                                  icon: const Icon(Icons.close),
                                   style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateColor.resolveWith(
-                                              (states) => Colors.white)),
+                                              (states) => AppColor.WHITE)),
                                   onPressed: () => clearPhoto(),
                                 ),
                               ),
@@ -190,46 +190,31 @@ class _CreatePageState extends State<CreatePage> {
                           )
                         : IconButton(
                             onPressed: () => {addPostPhoto(context)},
-                            icon: Icon(Icons.add_photo_alternate_rounded),
+                            icon: const Icon(Icons.add_photo_alternate_rounded),
                             iconSize: 90,
                           ),
                     Column(
                       children: [
                         postType == PostType.request
-                            ? Text('How many are \nyou requesting?')
-                            : Text("How many are \nyou offering?"),
-                        Slider(
-                          value: sliderValue,
-                          max: 20,
-                          divisions: 20,
-                          label: sliderValue.round().toString(),
-                          onChanged: (value) => {
-                            setState(() => sliderValue = value),
-                          },
+                            ? const Text('How many are \nyou requesting?')
+                            : const Text("How many are \nyou offering?"),
+                        Container(
+                          constraints: BoxConstraints(maxHeight: 50, maxWidth: 50),
+                          child: TextField(
+                            inputFormatters: [ FilteringTextInputFormatter.digitsOnly,
+                            ]
+                          ),
                         ),
                       ],
                     )
                   ],
                 ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: ToggleSwitch(
-              minWidth: 200,
-              animate: false,
-              initialLabelIndex: 0,
-              totalSwitches: 2,
-              labels: ['Community Only', 'Public'],
-              onToggle: (index) => index == 0
-                  ? _visibilityState = true
-                  : _visibilityState = false,
-            ),
-          ),
           postType == PostType.request
               ? Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: TextFormField(
                     controller: _captionController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Add a plant name",
                       hintText: "What plant are you requesting?",
@@ -238,10 +223,10 @@ class _CreatePageState extends State<CreatePage> {
                 )
               : postType == PostType.offer
                   ? Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: TextFormField(
                         controller: _captionController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Add a plant name",
                           hintText: "What plant are you requesting?",
@@ -249,10 +234,10 @@ class _CreatePageState extends State<CreatePage> {
                       ),
                     )
                   : Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: TextFormField(
                         controller: _captionController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Caption",
                           hintText: "add a caption to your post",
@@ -260,14 +245,14 @@ class _CreatePageState extends State<CreatePage> {
                       ),
                     ),
           Padding(
-            padding: EdgeInsets.only(top: 10, bottom: 20),
+            padding: const EdgeInsets.only(top: 10, bottom: 20),
             child: ElevatedButton(
               onPressed: () => {
                 if (validatePost())
                   {
                     
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text('Post Created'),
                       ),
                     )
@@ -275,7 +260,7 @@ class _CreatePageState extends State<CreatePage> {
                 else
                   {}
               },
-              child: Text('Done'),
+              child: const Text('Done'),
             ),
           ),
         ],

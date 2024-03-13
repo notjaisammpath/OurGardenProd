@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_walkthrough/backend/user.dart';
+import 'package:flutter_walkthrough/backend/back4app.dart';
 import 'package:flutter_walkthrough/widgets/myAppBar.dart';
 import 'package:flutter_walkthrough/widgets/post.dart';
 
@@ -11,26 +11,43 @@ class FeedPage extends StatefulWidget{
 }
 
 class _FeedPageState extends State<FeedPage> {
+  Future<List<Post>> fetchedPosts = Back4app().getUserFeed();
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(key: const Key("FEEDPAGESCROLL"), slivers: [
-    const MyAppBar(heading: "Feed"),
-    SliverList.list(
-      children: [
-        Post(
-          user: User("Jai Sammpath", "jai.sammpath@gmail.com"),
-          caption: "THIS IS A CAPTION YAY",
-          image: Image.asset('assets/images/ourgarden_logo.jpg'),
-          postType: PostType.post,
-        ),
-        Post(
-          user: User("Not Jai Sammpath", "jai.sammpath@gmail.com"),
-          caption: "THIS IS A DIFFERENT CAPTION",
-          image: Image.asset('assets/images/google_logo.png', fit: BoxFit.fill),
-          postType: PostType.post,
-        )
-      ],
-    ),
-  ],);
+    return FutureBuilder(
+      future: fetchedPosts,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const Scaffold(
+              body: Center(
+                child: SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: CircularProgressIndicator()),
+              ),
+            );
+          default:
+            {
+              List<Post> posts = [];
+              for(Post k in (snapshot.data as List<Post>)) {
+                posts.add(k);
+              }
+              return CustomScrollView(
+                  key: const Key("GARDENPAGESCROLL"),
+                  slivers: [
+                    const MyAppBar(heading: "My Garden"),
+                    SliverPadding(
+                      padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
+                      sliver: SliverList.list(
+                        children: posts,
+                      ),
+                    ),
+                  ]);
+            }
+        }
+      },
+    );
   }
 }

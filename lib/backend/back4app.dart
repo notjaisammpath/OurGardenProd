@@ -3,8 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/backend/plant.dart';
+import 'package:flutter_walkthrough/backend/user.dart';
 import 'package:flutter_walkthrough/pages/home.dart';
+import 'package:flutter_walkthrough/pages/mainpages/createpage.dart';
 import 'package:flutter_walkthrough/pages/onboarding/signup.dart';
+import 'package:flutter_walkthrough/widgets/post.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class Back4app {
@@ -115,5 +118,61 @@ class Back4app {
     return names;
   }
 
-  void createPost(String text, File? image, bool visibilityState, double sliderValue, String string) {}
+  void createPost(String text, File? image, double sliderValue, String postType) async{
+    var newPost = ParseObject('Post')
+      ..set("caption", text)
+      ..set("dateTime", DateTime.now())
+      ..set('type', postType)
+      ..set('num', sliderValue)
+      ..set("author", currentUser!);
+      if(image != null){
+        newPost.set("image", ParseFile(File(image.path)));
+      }
+    ParseResponse response = await newPost.save();
+    if(response.success) {
+      ParseObject savedPost = response.results!.first;
+      currentUser!.addRelation("posts", [savedPost]);
+    }
+    await currentUser!.save();
+  }
+
+    Future<List<Post>> getUserFeed() async {
+    // List<String> communityIds = currentUser!.getCommunities();
+    List<ParseObject> posts = [];
+    QueryBuilder<ParseObject> postQuery = QueryBuilder<ParseObject>(
+      ParseObject('Post'),
+    );
+    // postQuery.whereNotEqualTo('authorAsString', user.getDisplayName());
+
+    final ParseResponse postresponse = await postQuery.query();
+    if (postresponse.success && postresponse.results != null) {
+      // print(postresponse.results!.length);
+      posts.addAll(postresponse.results as List<ParseObject>);
+    } else if (postresponse.results == null) {
+      print("no posts found");
+    }
+
+    List<Post> results = [];
+    for (ParseObject k in posts) {
+      PostType type;
+      switch (k.get('postType')) {
+        case "PostType.request":
+          type = PostType.request;
+          break;
+        case "PostType.offer":
+          type = PostType.offer;
+          break;
+        case "PostType.post":
+          type = PostType.post;
+          break;
+        default:
+          type = PostType.post;
+          print('no post type found');
+          break;
+      }
+      results.add(Post(postType: type, user: User.fromParseObject(k.get("author")), caption: k.get("caption"), image: k.get("image"),));
+    }
+    return results;
+  }
+
 }
