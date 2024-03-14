@@ -17,7 +17,6 @@ class _MyGardenPageState extends State<MyGardenPage> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.views.isEmpty){
     return FutureBuilder(
       future: garden,
       builder: (context, snapshot) {
@@ -55,20 +54,5 @@ class _MyGardenPageState extends State<MyGardenPage> {
       },
     );
     }
-    else {
-      return CustomScrollView(
-                  key: const Key("GARDENPAGESCROLL"),
-                  slivers: [
-                    const MyAppBar(heading: "My Garden"),
-                    SliverPadding(
-                      padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
-                      sliver: SliverGrid.extent(
-                        mainAxisSpacing: 0,
-                        maxCrossAxisExtent: 200,
-                        children: widget.views,
-                      ),
-                    ),
-                  ]);
-    }
-  }
+    
 }

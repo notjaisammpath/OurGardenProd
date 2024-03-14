@@ -4,15 +4,13 @@ class User{
   String? displayName;
   String? email;
   String? objectId;
-  User(String displayName, String email){
-    this.displayName = displayName;
-    this.email = email;
-    this.objectId = "123456";
+  User(String this.displayName, String this.email){
+    objectId = "123456";
   }
   
-  User.fromParseObject(ParseObject p) {
+  User.fromParse(ParseObject p) {
     displayName = p.get("username");
-    objectId = p.objectId!;
-    email = p.get("email");
+    objectId = p.objectId;
+    email = p.get("username");
   }
 }

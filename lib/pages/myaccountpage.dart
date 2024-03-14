@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/apptheme.dart';
 import 'package:flutter_walkthrough/backend/back4app.dart';
 import 'package:flutter_walkthrough/pages/home.dart';
+import 'package:flutter_walkthrough/pages/mycommunitiespage.dart';
 import 'package:flutter_walkthrough/pages/onboarding/onboarding.dart';
 import 'package:flutter_walkthrough/pages/requestspage.dart';
 
@@ -101,12 +102,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   child: ListTile(
                     leading: const Icon(Icons.yard_rounded),
                     title: Text(
-                      "My Garden",
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      "Communities",
+                      style: Theme.of(context).textTheme.bodyMedium!.apply(fontSizeFactor: .8),
                     ),
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Home(startIndex: 2,)),
+                      MaterialPageRoute(builder: (context) => const MyCommunitiesPage()),
                     ),
                   ),
                 ),

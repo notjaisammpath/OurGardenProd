@@ -5,7 +5,7 @@ import 'package:flutter_walkthrough/pages/mainpages/createpage.dart';
 
 class Post extends StatefulWidget {
   User user;
-  Image? image;
+  String? imageUrl;
   PostType postType;
   String? caption;
   Post( 
@@ -13,7 +13,7 @@ class Post extends StatefulWidget {
       required this.postType,
       required this.user,
       this.caption,
-      this.image}
+      this.imageUrl}
       );
 
   @override
@@ -30,7 +30,7 @@ class _PostState extends State<Post> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: widget.image ?? const Placeholder(),
+                  child: widget.imageUrl != null ? Image.network(widget.imageUrl!,): null
                 ),
                 Align(
                   alignment: Alignment.centerLeft,

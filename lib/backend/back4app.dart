@@ -136,6 +136,19 @@ class Back4app {
     await currentUser!.save();
   }
 
+  Future<List<ParseObject>> getUserFromObjectId(String objectId) async {
+     QueryBuilder<ParseUser> queryUsers =
+        QueryBuilder<ParseUser>(ParseUser.forQuery())
+        ..whereContains("objectId", objectId);
+    final ParseResponse apiResponse = await queryUsers.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      return apiResponse.results as List<ParseObject>;
+    } else {
+      return [];
+    }
+  }
+
     Future<List<Post>> getUserFeed() async {
     // List<String> communityIds = currentUser!.getCommunities();
     List<ParseObject> posts = [];
@@ -154,8 +167,10 @@ class Back4app {
 
     List<Post> results = [];
     for (ParseObject k in posts) {
+      print(k.get('type'));
+      print(k.get("image"));
       PostType type;
-      switch (k.get('postType')) {
+      switch (k.get('type')) {
         case "PostType.request":
           type = PostType.request;
           break;
@@ -170,7 +185,11 @@ class Back4app {
           print('no post type found');
           break;
       }
-      results.add(Post(postType: type, user: User.fromParseObject(k.get("author")), caption: k.get("caption"), image: k.get("image"),));
+      print(k.get("author").runtimeType);
+      print("results is now $results");
+      Post l = Post(postType: type, user: User.fromParse((await getUserFromObjectId(k.get("author").objectId))[0]),  imageUrl: k.get<ParseFileBase>("image")?.url, caption: k.get("caption"),);
+      print("post is $l");
+      results.insert(0, l);
     }
     return results;
   }

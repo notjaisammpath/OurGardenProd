@@ -31,7 +31,7 @@ class _FeedPageState extends State<FeedPage> {
           default:
             {
               List<Post> posts = [];
-              for(Post k in (snapshot.data as List<Post>)) {
+              for(Post k in (snapshot.data as List<dynamic>)) {
                 posts.add(k);
               }
               return CustomScrollView(

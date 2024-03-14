@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_walkthrough/apptheme.dart';
 import 'package:flutter_walkthrough/backend/back4app.dart';
+import 'package:flutter_walkthrough/pages/home.dart';
 import 'package:image_picker/image_picker.dart'; 
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -250,6 +251,10 @@ class _CreatePageState extends State<CreatePage> {
               onPressed: () => {
                 if (validatePost())
                   {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home(startIndex: 0,)),
+                    ),
                     
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
