@@ -39,7 +39,7 @@ class _MyGardenPageState extends State<MyGardenPage> {
               return CustomScrollView(
                   key: const Key("GARDENPAGESCROLL"),
                   slivers: [
-                    const MyAppBar(heading: "My Garden"),
+                    const MyAppBar(heading: "My Garden", backbutton: false, searchBar: true,),
                     SliverPadding(
                       padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
                       sliver: SliverGrid.extent(

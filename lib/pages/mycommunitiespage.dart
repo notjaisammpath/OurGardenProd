@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_walkthrough/backend/back4app.dart';
+import 'package:flutter_walkthrough/backend/community.dart';
 import 'package:flutter_walkthrough/backend/user.dart';
 import 'package:flutter_walkthrough/widgets/myAppBar.dart';
 import 'package:flutter_walkthrough/widgets/profileSnippet.dart';
@@ -11,32 +13,54 @@ class MyCommunitiesPage extends StatefulWidget {
 }
 
 class _MyCommunitiesPageState extends State<MyCommunitiesPage> {
+  Future<List<Community>>? communities;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        const MyAppBar(heading: "Your Communities",),
-        SliverList.list(children: [
-          CommunityWidget(
-            communityLocation: "irving",
-            communityName: "community!",
-          ),
-        ])
-      ],
-    ));
+    communities = Back4app().getCommunities();
+    return FutureBuilder(
+      future: communities,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case (ConnectionState.waiting):
+            return const CircularProgressIndicator();
+          case ConnectionState.none:
+            return const Text("error");
+          default:
+          if(snapshot.hasData){
+            List<CommunityWidget> widgets = [];
+            for(Community k in snapshot.data as List<Community>) {
+              widgets.add(CommunityWidget(community: k));
+            }
+            return Scaffold(
+              body: CustomScrollView(slivers: [
+                const MyAppBar(
+                  heading: "Your Communities",
+                  backbutton: true,
+                  searchBar: true,
+                ),
+                SliverList.list(
+                  children: widgets
+                )
+              ],
+              ),
+            );
+          }
+          else return Text("no data in snapshot");
+        }
+      },
+    );
   }
 }
 
 class CommunityWidget extends StatelessWidget {
-  const CommunityWidget({
-    Key? key,
-    required this.communityName,
-    required this.communityLocation,
-  }) : super(key: key);
+  const CommunityWidget({Key? key, required this.community}) : super(key: key);
 
-  final String communityName;
-  final String communityLocation;
+  final Community community;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +72,7 @@ class CommunityWidget extends StatelessWidget {
           child: ListTile(
             leading: TextButton(
               child: Text(
-                communityName,
+                community.name!,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               onPressed: () async {
@@ -66,7 +90,11 @@ class CommunityWidget extends StatelessWidget {
                 );
               },
             ),
-            trailing: IconButton(icon: const Icon(Icons.done), onPressed: (){},),
+            title: Text(community.location!),
+            trailing: IconButton(
+              icon: const Icon(Icons.done),
+              onPressed: () {},
+            ),
           ),
         ),
       ),

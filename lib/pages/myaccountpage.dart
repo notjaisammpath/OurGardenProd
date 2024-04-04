@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/apptheme.dart';
 import 'package:flutter_walkthrough/backend/back4app.dart';
+import 'package:flutter_walkthrough/backend/community.dart';
 import 'package:flutter_walkthrough/pages/home.dart';
 import 'package:flutter_walkthrough/pages/mycommunitiespage.dart';
 import 'package:flutter_walkthrough/pages/onboarding/onboarding.dart';
@@ -121,10 +122,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       "Edit Profile",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Placeholder()),
-                    ),
+                    onTap: () => Back4app().addCommunity(Community("name", "comloc"))
                   ),
                 ),
               ),

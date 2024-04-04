@@ -37,7 +37,7 @@ class _FeedPageState extends State<FeedPage> {
               return CustomScrollView(
                   key: const Key("GARDENPAGESCROLL"),
                   slivers: [
-                    const MyAppBar(heading: "My Garden"),
+                    const MyAppBar(heading: "My Garden", searchBar: true, backbutton: false,),
                     SliverPadding(
                       padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
                       sliver: SliverList.list(

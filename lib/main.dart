@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/apptheme.dart';
 import 'package:flutter_walkthrough/backend/back4app.dart';
 import 'package:flutter_walkthrough/pages/home.dart';
+import 'package:flutter_walkthrough/pages/myaccountpage.dart';
+import 'package:flutter_walkthrough/pages/mycommunitiespage.dart';
 import 'package:flutter_walkthrough/pages/onboarding/onboarding.dart';
 
 class MyApp extends StatefulWidget {
@@ -36,7 +38,7 @@ class _MyAppState extends State<MyApp> {
                 );
               default:
                 if (snapshot.hasData && snapshot.data!) {
-                  return Home(startIndex: 1,);
+                  return Home(startIndex: 0,);
                 } else {
                   return const Onboarding();
                 }

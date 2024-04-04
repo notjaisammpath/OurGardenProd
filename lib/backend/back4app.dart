@@ -2,10 +2,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_walkthrough/backend/community.dart';
 import 'package:flutter_walkthrough/backend/plant.dart';
 import 'package:flutter_walkthrough/backend/user.dart';
 import 'package:flutter_walkthrough/pages/home.dart';
 import 'package:flutter_walkthrough/pages/mainpages/createpage.dart';
+import 'package:flutter_walkthrough/pages/mycommunitiespage.dart';
 import 'package:flutter_walkthrough/pages/onboarding/signup.dart';
 import 'package:flutter_walkthrough/widgets/post.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -136,6 +138,19 @@ class Back4app {
     await currentUser!.save();
   }
 
+  Future<bool> addCommunity(Community community) async{
+    var newCommunity = ParseObject("Community")
+      ..set("name", community.name)
+      ..set("location", community.location)
+      ..setAdd("members", currentUser);
+    await newCommunity.save();
+    currentUser!
+    ..addRelation("communities", [newCommunity])
+    ..save();
+    await currentUser!.save();
+    return true;
+  }
+
   Future<List<ParseObject>> getUserFromObjectId(String objectId) async {
      QueryBuilder<ParseUser> queryUsers =
         QueryBuilder<ParseUser>(ParseUser.forQuery())
@@ -167,8 +182,6 @@ class Back4app {
 
     List<Post> results = [];
     for (ParseObject k in posts) {
-      print(k.get('type'));
-      print(k.get("image"));
       PostType type;
       switch (k.get('type')) {
         case "PostType.request":
@@ -185,13 +198,36 @@ class Back4app {
           print('no post type found');
           break;
       }
-      print(k.get("author").runtimeType);
-      print("results is now $results");
       Post l = Post(postType: type, user: User.fromParse((await getUserFromObjectId(k.get("author").objectId))[0]),  imageUrl: k.get<ParseFileBase>("image")?.url, caption: k.get("caption"),);
-      print("post is $l");
       results.insert(0, l);
     }
     return results;
+  }
+
+  Future<List<Community>> getCommunities() async {
+    List<Community> communities = [];
+    List<ParseObject> parseCommunities = [];
+    print("starting now");
+    ParseRelation<ParseObject> list = await currentUser!.get("communities");
+    QueryBuilder communityQuery = list.getQuery();
+    print("get done");
+    final ParseResponse communityResponse = await communityQuery.query();
+    if (communityResponse.success && communityResponse.results != null) {
+      // print(postresponse.results!.length);
+      parseCommunities.addAll(communityResponse.results as List<ParseObject>);
+    } else if (communityResponse.results == null) {
+      print("no posts found");
+    }
+    for(ParseObject j in parseCommunities) {
+      communities.add(Community.fromParse(j));
+      print(j.objectId);
+    }
+    return communities;
+  }
+
+  Future<void> removePlantFromGarden(Plant? plant, int numPlants) async{
+    currentUser!.setRemove("plants", "${plant!.data[0].commonName!}--$numPlants");
+    await currentUser!.save();
   }
 
 }

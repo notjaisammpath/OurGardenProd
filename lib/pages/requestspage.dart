@@ -16,7 +16,7 @@ class _RequestsPageState extends State<RequestsPage> {
     return Scaffold(
         body: CustomScrollView(
       slivers: [
-        const MyAppBar(heading: "Settings"),
+        const MyAppBar(heading: "Settings", backbutton: true, searchBar: true,),
         SliverList.list(children: [
           RequestWidget(
             otherUser: User("testUser", "Fakeemail"),

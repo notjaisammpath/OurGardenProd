@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough/apptheme.dart';
+import 'package:flutter_walkthrough/backend/back4app.dart';
 
 import '../../backend/plant.dart';
 
@@ -7,13 +8,13 @@ import '../../backend/plant.dart';
 class PlantView extends StatefulWidget {
   String name = "PLANT_NAME";
   String imageUrl = "https://cdn-icons-png.flaticon.com/512/628/628283.png";
-  int numOfPlants = 1;
+  int numPlants = 1;
   Plant? plant;
   bool markForDelete = false;
 
   PlantView({super.key});
 
-  PlantView.fromPlant(Plant p, int numPlants, {super.key}) {
+  PlantView.fromPlant(Plant p, this.numPlants, {super.key}) {
     plant = p;
     if (p.data[0].commonName != null) {
       name = p.data[0].commonName!;
@@ -22,7 +23,6 @@ class PlantView extends StatefulWidget {
     if (p.data[0].imageUrl != null) {
       imageUrl = p.data[0].imageUrl!;
     }
-    numOfPlants = numPlants;
   }
 
   @override
@@ -74,6 +74,7 @@ class _PlantViewState extends State<PlantView> {
                           MaterialStateColor.resolveWith((states) => AppColor.WHITE)),
                   onPressed: () => {
                     setState(() {
+                      Back4app().removePlantFromGarden(widget.plant, widget.numPlants);
                       widget.markForDelete = true;
                     })
                   }),
@@ -81,7 +82,7 @@ class _PlantViewState extends State<PlantView> {
             Positioned(
               right: 15,
               bottom: 15,
-              child: CircleAvatar(child: Text("${widget.numOfPlants}")),
+              child: CircleAvatar(child: Text("${widget.numPlants}")),
             ),
           ],
         ),
