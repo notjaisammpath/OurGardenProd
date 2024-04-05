@@ -34,20 +34,32 @@ class _FeedPageState extends State<FeedPage> {
               for(Post k in (snapshot.data as List<dynamic>)) {
                 posts.add(k);
               }
-              return CustomScrollView(
-                  key: const Key("GARDENPAGESCROLL"),
-                  slivers: [
-                    const MyAppBar(heading: "My Garden", searchBar: true, backbutton: false,),
-                    SliverPadding(
-                      padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
-                      sliver: SliverList.list(
-                        children: posts,
+              return RefreshIndicator(
+                onRefresh: _handleRefresh,
+                child: CustomScrollView(
+                    key: const Key("GARDENPAGESCROLL"),
+                    slivers: [
+                      const MyAppBar(heading: "My Garden", searchBar: true, backbutton: false,),
+                      SliverPadding(
+                        padding: const EdgeInsets.only(left: 4, right: 4, top: 2),
+                        sliver: SliverList.list(
+                          children: posts,
+                        ),
                       ),
-                    ),
-                  ]);
+                    ]),
+              );
             }
         }
       },
     );
+  }
+  Future<void> _handleRefresh() async {
+    // Simulate network fetch or database query
+    await Future.delayed(Duration.zero);
+    // Update the list of items and refresh the UI
+    
+    setState(() {
+      fetchedPosts = Back4app().getUserFeed();
+    });
   }
 }

@@ -14,31 +14,14 @@ class MyAppBar extends StatelessWidget {
     return SliverAppBar(
       toolbarHeight: 65,
       leadingWidth: (!backbutton && searchBar)? 200 : null,
-      leading: backbutton? null: searchBar? Padding(
-        padding: const EdgeInsets.only(top: 6.0, bottom : 6.0, left : 10),
-        child: SearchBar(
-                      onChanged: null,
-                      hintText: "Search",
-                      leading: Icon(Icons.search_rounded),
-                      elevation: MaterialStatePropertyAll(1),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)))),
-                      backgroundColor: MaterialStatePropertyAll(AppColor.WHITE),
-                    ),
-      )
-                :Padding(padding: EdgeInsets.all(0)),
+      leading: backbutton? null: searchBar? const Padding(
+        padding: EdgeInsets.only(top: 6.0, bottom : 6.0, left : 20),
+        child: MySearchBar())
+                :const Padding(padding: EdgeInsets.all(0)),
       title: searchBar? backbutton?
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SearchBar(
-                      onChanged: null,
-                      hintText: "Search",
-                      leading: Icon(Icons.search_rounded),
-                      elevation: MaterialStatePropertyAll(1),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)))),
-                      backgroundColor: MaterialStatePropertyAll(AppColor.WHITE),
-                    ),
+                    child: MySearchBar()
                   
                 ):null :Text(heading),
                 actions: [
@@ -74,3 +57,24 @@ class MyAppBar extends StatelessWidget {
 
     );
   }}
+
+  class MySearchBar extends StatelessWidget{
+  const MySearchBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SearchBar(
+          textStyle: MaterialStatePropertyAll(Theme.of(context).textTheme.bodyLarge!.apply(color: AppColor.BLACK)),
+                      onChanged: null,
+                      hintStyle: MaterialStatePropertyAll(Theme.of(context).textTheme.bodyLarge!.apply(color: AppColor.BLACK.withOpacity(.6))),
+                      hintText: "Search",
+                      leading: const Icon(Icons.search_rounded),
+                      elevation: const MaterialStatePropertyAll(1),
+                      shape: const MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+                      backgroundColor: const MaterialStatePropertyAll(AppColor.WHITE),
+                    );
+      
+  }
+
+  }
