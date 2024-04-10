@@ -98,7 +98,7 @@ class _MyCommunitiesPageState extends State<MyCommunitiesPage> {
                                             child: Icon(Icons.group_rounded),
                                           ),
                                           Text(
-                                            "Join A Community",
+                                            "Join a Community",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium!,
@@ -127,7 +127,7 @@ class _MyCommunitiesPageState extends State<MyCommunitiesPage> {
                                             child: Icon(Icons.add_box_rounded),
                                           ),
                                           Text(
-                                            "Create A Community",
+                                            "Create a Community",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium!,

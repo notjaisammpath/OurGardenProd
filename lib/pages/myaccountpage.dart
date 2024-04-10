@@ -108,7 +108,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     ),
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MyCommunitiesPage()),
+                      MaterialPageRoute(builder: (context) => Home(startIndex: 3,)),
                     ),
                   ),
                 ),

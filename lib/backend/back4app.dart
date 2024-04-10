@@ -126,7 +126,8 @@ class Back4app {
       ..set("dateTime", DateTime.now())
       ..set('type', postType)
       ..set('num', sliderValue)
-      ..set("author", currentUser!);
+      ..set("author", currentUser!)
+      ..set("communities", await getParseCommunities());
       if(image != null){
         newPost.set("image", ParseFile(File(image.path)));
       }
@@ -164,13 +165,20 @@ class Back4app {
     }
   }
 
-    Future<List<Post>> getUserFeed() async {
-    // List<String> communityIds = currentUser!.getCommunities();
+  Future<List<Post>> getUserFeed() async {
+    List<String> communityIds = [];
+    for(Community k in await getCommunities()) {
+      communityIds.add(k.objectId!);
+    }
     List<ParseObject> posts = [];
     QueryBuilder<ParseObject> postQuery = QueryBuilder<ParseObject>(
       ParseObject('Post'),
     );
-    // postQuery.whereNotEqualTo('authorAsString', user.getDisplayName());
+    for(String str in communityIds) {
+      print("comids - $communityIds");
+      postQuery = postQuery..whereEqualTo("communities", "Community");
+    }
+    // postQuery = postQuery..whereNotEqualTo('author', currentUser!);
 
     final ParseResponse postresponse = await postQuery.query();
     if (postresponse.success && postresponse.results != null) {
@@ -204,13 +212,25 @@ class Back4app {
     return results;
   }
 
+  Future<List<ParseObject>> getParseCommunities() async {
+    List<ParseObject> parseCommunities = [];
+    ParseRelation<ParseObject> list = await currentUser!.get("communities");
+    QueryBuilder communityQuery = list.getQuery();
+    final ParseResponse communityResponse = await communityQuery.query();
+    if (communityResponse.success && communityResponse.results != null) {
+      // print(postresponse.results!.length);
+      parseCommunities.addAll(communityResponse.results as List<ParseObject>);
+    } else if (communityResponse.results == null) {
+      print("no posts found");
+    }
+    return parseCommunities;
+  }
+
   Future<List<Community>> getCommunities() async {
     List<Community> communities = [];
     List<ParseObject> parseCommunities = [];
-    print("starting now");
     ParseRelation<ParseObject> list = await currentUser!.get("communities");
     QueryBuilder communityQuery = list.getQuery();
-    print("get done");
     final ParseResponse communityResponse = await communityQuery.query();
     if (communityResponse.success && communityResponse.results != null) {
       // print(postresponse.results!.length);
@@ -219,8 +239,8 @@ class Back4app {
       print("no posts found");
     }
     for(ParseObject j in parseCommunities) {
+      print("communityside - ${j.objectId}");
       communities.add(Community.fromParse(j));
-      print(j.objectId);
     }
     return communities;
   }

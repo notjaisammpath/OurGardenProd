@@ -4,6 +4,7 @@ import 'package:flutter_walkthrough/pages/addplantpage.dart';
 import 'package:flutter_walkthrough/pages/mainpages/createpage.dart';
 import 'package:flutter_walkthrough/pages/mainpages/feedpage.dart';
 import 'package:flutter_walkthrough/pages/mainpages/gardenpage.dart';
+import 'package:flutter_walkthrough/pages/mycommunitiespage.dart';
 
 class Home extends StatefulWidget {
   int startIndex;
@@ -22,7 +23,8 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               const FeedPage(),
               CreatePage(),
-              MyGardenPage()
+              MyGardenPage(),
+              const MyCommunitiesPage(),
             ],
           ),
       floatingActionButton: widget.startIndex == 2? FloatingActionButton.extended(
@@ -50,7 +52,7 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(icon: Icon(Icons.create_rounded), label: "Create"),
           BottomNavigationBarItem(icon: Icon(Icons.yard_rounded), label: "Your Garden")
         ],
-        currentIndex: widget.startIndex,
+        currentIndex: widget.startIndex > 2 ? 0 : widget.startIndex,
         onTap: (value) => setState(() {
           widget.startIndex = value;
         })
